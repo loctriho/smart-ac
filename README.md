@@ -16,14 +16,14 @@ Spring Boot 3 + Spring Data JPA + Spring Security: **device HTTP API** (bearer t
 
 Override via `app.bootstrap.email` / `app.bootstrap.password` in `application.properties`, or change after login.
 
-## Database (MySQL)
+## Database (MariaDB)
 
-The app uses **MySQL** at runtime (`mysql-connector-j`). Defaults in `application.properties`:
+The app uses **MariaDB** at runtime via the **MariaDB JDBC driver** (`mariadb-java-client`). Defaults in `application.properties` (override with `MYSQL_*` env vars):
 
-- **Host / port / database:** `localhost:3306` / `smartac` (URL option `createDatabaseIfNotExist=true` creates the schema if the account is allowed to).
-- **User / password:** `smartac` / `smartac` (override with `MYSQL_USER`, `MYSQL_PASSWORD`, or full URL via `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`).
+- **Host / port / database:** `localhost:3307` / `smartac` (URL option `createDatabaseIfNotExist=true` creates the schema if the account is allowed to).
+- **User / password:** `root` / `root` (override with `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`).
 
-Example: create a dedicated user (run as MySQL admin):
+Example: create a dedicated user (run as a MariaDB admin):
 
 ```sql
 CREATE DATABASE IF NOT EXISTS smartac;
@@ -32,11 +32,11 @@ GRANT ALL PRIVILEGES ON smartac.* TO 'smartac'@'%';
 FLUSH PRIVILEGES;
 ```
 
-`mvn test` uses **H2 in-memory** via `src/test/resources/application.properties` so CI does not need MySQL.
+`mvn test` uses **H2 in-memory** via `src/test/resources/application.properties` so CI does not need MariaDB.
 
 ## Run
 
-Start MySQL, then:
+Start MariaDB (or point `MYSQL_*` at your instance), then:
 
 ```bash
 mvn spring-boot:run
@@ -65,7 +65,7 @@ mvn -q package
 java -jar target/smart-ac-poc-1.0.0-SNAPSHOT.jar
 ```
 
-For a public URL, run behind HTTPS (reverse proxy or platform), set `app.base-url` to the public origin (for invitation and password-reset links), point `spring.datasource.*` at your managed MySQL (or env overrides), and add SMTP if you want password-reset emails (otherwise reset links are logged when `app.dev.log-password-reset-links=true`).
+For a public URL, run behind HTTPS (reverse proxy or platform), set `app.base-url` to the public origin (for invitation and password-reset links), point `spring.datasource.*` at your managed MariaDB (or `MYSQL_*` env overrides), and add SMTP if you want password-reset emails (otherwise reset links are logged when `app.dev.log-password-reset-links=true`).
 
 Docker:
 
@@ -89,17 +89,17 @@ docker run -p 8080:8080 smart-ac-poc
 **Edge cases / pitfalls:**
 
 - Time ranges for graphs use the **JVM default time zone**; production should fix a zone (e.g. UTC) per tenant.
-- Production should use a managed MySQL (or equivalent) with backups; `ddl-auto=update` is convenient for dev only.
+- Production should use a managed MariaDB (or equivalent) with backups; `ddl-auto=update` is convenient for dev only.
 - Registering `DeviceBearerAuthFilter` as a standalone `@Bean` would register it globally — the code instantiates it only inside the security chain (see `SecurityConfig`).
 - CSRF is disabled for `/api/v1/devices/register` and `/api/admin/**` JSON calls; admin forms still use CSRF.
 
-**Scaling (horizontal):** run **multiple instances** of the same JAR behind a load balancer with **sticky sessions disabled** for the device API (stateless bearer auth). Use a **managed MySQL** tier; for read-heavy dashboards you can add **read replicas** later (routing `DataSource` or separate read URL — see commented `app.datasource.read.jdbc-url` in `application.properties`). Device bulk ingest can use **in-process bounded queues** and **202 Accepted** for multi-sample payloads when `app.device-ingest.async-enabled=true` (disabled in tests). For spikes beyond one JVM, replace the in-process queue with a **broker + consumer** that calls the same persistence logic.
+**Scaling (horizontal):** run **multiple instances** of the same JAR behind a load balancer with **sticky sessions disabled** for the device API (stateless bearer auth). Use a **managed MariaDB** tier; for read-heavy dashboards you can add **read replicas** later (routing `DataSource` or separate read URL — see commented `app.datasource.read.jdbc-url` in `application.properties`). Device bulk ingest can use **in-process bounded queues** and **202 Accepted** for multi-sample payloads when `app.device-ingest.async-enabled=true` (disabled in tests). For spikes beyond one JVM, replace the in-process queue with a **broker + consumer** that calls the same persistence logic.
 
 **Possible later work:**
 
 - WebSocket push for notifications instead of polling.
 - Email sending for invitations and password reset (SMTP).
-- PostgreSQL + Flyway, device token rotation, audit logs, stricter rate limits per device IP. For MySQL production, prefer Flyway/Liquibase over relying on `ddl-auto=update`.
+- PostgreSQL + Flyway, device token rotation, audit logs, stricter rate limits per device IP. For MariaDB production, prefer Flyway/Liquibase over relying on `ddl-auto=update`.
 
 ## License
 
