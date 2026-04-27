@@ -1,0 +1,108 @@
+/* Auth + shared admin chrome for Thymeleaf pages (login, register, password flows).
+   The SPA under /admin/ uses static/admin/app.css directly; this file bridges both. */
+@import url("../admin/app.css");
+
+:root {
+  /* Used by a few Thymeleaf inline styles (links on auth pages) */
+  --accent: var(--app-link, #0369a1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid var(--app-border, #e2e8f0);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  padding: 1.5rem 1.35rem 1.35rem;
+}
+
+.login-card h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.4rem;
+}
+
+.login-card .muted {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+
+.field label {
+  font-size: 0.88rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--app-input-border, #cbd5e1);
+  background: var(--app-input-bg, #ffffff);
+  padding: 0.5rem 0.6rem;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid rgba(3, 105, 161, 0.25);
+  border-color: #0369a1;
+}
+
+button.btn {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.55rem 0.9rem;
+  background: #0369a1;
+  border-color: #0369a1;
+  color: #fff;
+  font-weight: 600;
+}
+
+button.btn:hover {
+  filter: brightness(1.03);
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+  margin: 0 0 0.9rem 0;
+  border: 1px solid transparent;
+}
+
+.alert--error {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #7f1d1d;
+}
+
+.alert--ok {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #14532d;
+}

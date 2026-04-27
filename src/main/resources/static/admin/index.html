@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Smart AC Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="nav">
+        <a href="#dashboard" data-nav="dashboard">Dashboard</a>
+        <a href="#devices" data-nav="devices">Devices</a>
+        <a href="#notifications" data-nav="notifications"
+          >Notifications <span id="nav-badge" class="badge" hidden>0</span></a
+        >
+        <a href="#admins" data-nav="admins">Admins</a>
+        <a href="#invitations" data-nav="invitations">Invites</a>
+        <span class="spacer"></span>
+        <span id="live-status" class="live muted" title="Server push (SSE)">Live: …</span>
+        <button type="button" id="btn-logout" class="link-btn">Log out</button>
+      </nav>
+      <main id="app-main" class="main"></main>
+    </div>
+    <div id="app-toast" class="app-toast" role="status" aria-live="polite" hidden></div>
+    <div id="chart-modal-root" class="modal-root" hidden>
+      <div class="modal-backdrop" id="chart-modal-backdrop" aria-hidden="true"></div>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="chart-modal-title">
+        <header class="modal-header">
+          <h2 id="chart-modal-title" class="modal-title">Trend</h2>
+          <button type="button" class="modal-close" id="chart-modal-close" aria-label="Close">×</button>
+        </header>
+        <p id="chart-modal-sub" class="modal-sub muted"></p>
+        <div id="chart-modal-inner" class="modal-chart-inner"></div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.3.1/dist/chartjs-adapter-luxon.umd.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>

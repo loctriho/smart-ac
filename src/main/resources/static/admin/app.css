@@ -1,0 +1,503 @@
+:root {
+  color-scheme: light;
+  --app-bg: #eef1f6;
+  --app-text: #0f172a;
+  --app-muted: #64748b;
+  --app-nav-bg: #ffffff;
+  --app-nav-border: #e2e8f0;
+  --app-nav-link: #64748b;
+  --app-nav-link-active: #0369a1;
+  --app-border: #e2e8f0;
+  --app-table-head: #e8eef6;
+  --app-table-head-text: #334155;
+  --app-link: #0369a1;
+  --app-btn-bg: #ffffff;
+  --app-btn-border: #cbd5e1;
+  --app-btn-text: #0f172a;
+  --app-err: #dc2626;
+  --app-warn: #b45309;
+  --app-note: #b45309;
+  --app-input-bg: #ffffff;
+  --app-input-border: #cbd5e1;
+  --app-textarea-bg: #f8fafc;
+  --app-badge: #dc2626;
+  --chart-temp: #0369a1;
+  --chart-hum: #0d9488;
+  --chart-co: #c2410c;
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.shell {
+  min-height: 100vh;
+}
+
+.main {
+  padding-bottom: 2rem;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--app-nav-border);
+  background: var(--app-nav-bg);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.nav a {
+  color: var(--app-nav-link);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.nav a.active,
+.nav a:hover {
+  color: var(--app-nav-link-active);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--app-link);
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 0.35rem;
+  min-width: 1.1rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: var(--app-badge);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+  vertical-align: middle;
+}
+
+.badge[hidden] {
+  display: none !important;
+}
+
+.live {
+  font-size: 0.8rem;
+}
+
+.live.ok {
+  color: #15803d;
+}
+
+.live.err {
+  color: var(--app-err);
+}
+
+.wrap {
+  padding: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.35rem;
+}
+
+.meta {
+  color: var(--app-muted);
+  font-size: 0.9rem;
+}
+
+.syncing {
+  color: var(--app-warn);
+}
+
+.err {
+  color: var(--app-err);
+}
+
+.muted {
+  color: var(--app-muted);
+}
+
+.stats {
+  display: flex;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.stats a {
+  color: var(--app-link);
+}
+
+.table-wrap {
+  overflow: auto;
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  background: var(--app-nav-bg);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th,
+td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--app-border);
+  text-align: left;
+}
+
+th {
+  background: var(--app-table-head);
+  color: var(--app-table-head-text);
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--app-btn-border);
+  background: var(--app-btn-bg);
+  color: var(--app-btn-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+a.btn {
+  color: var(--app-link);
+}
+
+.btn.ghost {
+  border-color: var(--app-muted);
+  background: transparent;
+}
+
+.btn.small {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.55rem;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.row input {
+  max-width: 220px;
+  padding: 0.35rem 0.5rem;
+  background: var(--app-input-bg);
+  border: 1px solid var(--app-input-border);
+  border-radius: 6px;
+  color: var(--app-text);
+}
+
+.note {
+  color: var(--app-note);
+  font-size: 0.9rem;
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.75rem 0 0.5rem;
+}
+
+.pager .pager-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.pager .pager-meta {
+  font-size: 0.85rem;
+  color: var(--app-muted);
+}
+
+.pager .pager-right {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.pager .btn[disabled] {
+  opacity: 0.55;
+}
+
+.dash-hint {
+  max-width: 52rem;
+  line-height: 1.45;
+}
+
+.dash-hint code {
+  font-size: 0.85em;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 420px;
+}
+
+.form input {
+  padding: 0.4rem 0.5rem;
+  background: var(--app-input-bg);
+  border: 1px solid var(--app-input-border);
+  border-radius: 6px;
+  color: var(--app-text);
+}
+
+.result textarea {
+  width: 100%;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  background: var(--app-textarea-bg);
+  color: var(--app-text);
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.app-toast {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  max-width: 22rem;
+  padding: 0.65rem 0.85rem;
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
+  z-index: 50;
+}
+
+.app-toast[hidden] {
+  display: none !important;
+}
+
+.device-range-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.range-tab {
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--app-btn-border);
+  background: var(--app-btn-bg);
+  color: var(--app-nav-link);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.range-tab.active {
+  border-color: var(--app-link);
+  color: var(--app-link);
+  font-weight: 600;
+}
+
+.alert-hint {
+  font-size: 0.85rem;
+  color: var(--app-muted);
+  margin: 0 0 0.75rem;
+  max-width: 52rem;
+  line-height: 1.45;
+}
+
+.alert-hint a {
+  color: var(--app-link);
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart-card {
+  margin: 0;
+  padding: 0.75rem;
+  background: var(--app-nav-bg);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.chart-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 0;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+  border: 1px solid var(--app-border);
+}
+
+.chart-canvas-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.chart-empty {
+  margin: 0 0 1rem;
+}
+
+.chart-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.chart-card-head figcaption {
+  margin: 0;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.chart-stats {
+  font-size: 0.75rem;
+  margin: 0 0 0.4rem;
+  line-height: 1.35;
+}
+
+.chart-row-total {
+  font-size: 0.78rem;
+  margin: 0 0 0.15rem;
+}
+
+.chart-grid-line {
+  stroke: var(--app-border);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.chart-line {
+  vector-effect: non-scaling-stroke;
+}
+
+.modal-root[hidden] {
+  display: none !important;
+}
+
+.modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(960px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+  background: var(--app-nav-bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  border: 1px solid var(--app-border);
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.modal-close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--app-muted);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+}
+
+.modal-close:hover {
+  color: var(--app-text);
+  background: var(--app-bg);
+}
+
+.modal-sub {
+  margin: 0 0 0.75rem;
+  font-size: 0.88rem;
+}
+
+.modal-chart-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: min(55vh, 420px);
+  min-height: 320px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+  border: 1px solid var(--app-border);
+}
+
+.modal-chart-canvas-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.notify-intro code {
+  font-size: 0.85em;
+}

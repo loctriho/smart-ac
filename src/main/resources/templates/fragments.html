@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <body>
+    <nav th:fragment="nav" class="nav">
+      <a class="nav__brand" th:href="@{/admin/}">Smart AC</a>
+      <div class="nav__links">
+        <a th:href="@{/admin/}">Admin</a>
+        <a th:href="@{/admin/devices}">Devices</a>
+        <a th:href="@{/admin/notifications}">
+          Notifications
+          <span
+            id="nav-notify-badge"
+            class="badge"
+            th:style="${openNotificationCount != null and openNotificationCount > 0} ? 'display:inline-block' : 'display:none'"
+            th:text="${openNotificationCount != null ? openNotificationCount : 0}"
+            >0</span
+          >
+        </a>
+        <a th:href="@{/admin/admins}">Admins</a>
+        <a th:href="@{/admin/invitations}">Invites</a>
+        <form th:action="@{/logout}" method="post" class="nav__logout">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <button type="submit" class="link-btn">Log out</button>
+        </form>
+      </div>
+    </nav>
+
+    <th:block th:fragment="scripts-base">
+      <!-- Admin UI: use <a th:href="@{/admin/}">/admin/</a> (jQuery SPA under classpath:/static/admin/). -->
+    </th:block>
+
+    <th:block th:fragment="scripts-notify">
+      <th:block th:replace="~{fragments :: scripts-base}"></th:block>
+    </th:block>
+  </body>
+</html>
