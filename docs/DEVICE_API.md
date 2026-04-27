@@ -76,7 +76,7 @@ The **`apiToken`** is shown **only once**. Store it on the device; the server ke
 **Response:**
 
 - **`200 OK`** — body persisted before the response is returned (single-sample uploads, or multi-sample when async ingest is turned off).
-- **`202 Accepted`** — multi-sample payload accepted for **background persistence** when the server has async ingest enabled (`app.device-ingest.async-enabled=true`). Body shape:
+- **`202 Accepted`** — request body has **more than one** sample: it is accepted and **queued** for background persistence (HTTP returns before DB write finishes). Body shape:
 
 ```json
 { "acceptedSamples": 25, "queued": true }
@@ -92,9 +92,8 @@ Single-sample success omits `queued` or leaves it unset in JSON:
 
 **Semantics:**
 
-- **Catch-up / backlog:** send many samples in one request (up to 500). This is how devices should flush data after Wi‑Fi or server outages. With async ingest, the HTTP response returns quickly while a **bounded worker pool** batch-writes to the database.
-- **Steady state:** sending **exactly one** sample per request is limited to **once per ~55 seconds** per device. If the device sends a single sample more often, the API returns **`429 Too Many Requests`** with a message explaining that bulk payloads are for catch-up.
-- **Bulk spacing:** multi-sample requests are additionally limited to **once every few seconds** per device (default 2s, `app.device-ingest.min-bulk-interval-seconds`) to reduce accidental hammering.
+- **Catch-up / backlog:** send many samples in one request (up to 500). This is how devices should flush data after Wi‑Fi or server outages. Multi-sample requests return **`202`** while a **bounded worker pool** batch-writes to the database.
+- **Per-device pacing (`429`):** the server allows **at most one accepted** `POST /readings` per device per **`app.device-ingest.readings-rate-limit-seconds`** (default **60**). That applies whether you send **one** sample or **many** in the body—posting again inside the window returns **`429 Too Many Requests`**. Use **`0`** for that property on a test instance to disable pacing.
 - **Overload:** if the ingest queue is too deep or a **circuit breaker** opened after repeated DB errors, the API may return **`503 Service Unavailable`** with a short error message — devices should **back off** and retry.
 - **Recorded time rules:** the server rejects readings in a **future UTC minute** and normalizes all `recordedAt` values to **UTC minute precision** on ingest.
 
@@ -105,7 +104,7 @@ Single-sample success omits `queued` or leaves it unset in JSON:
 | `401` | Missing/invalid bearer token |
 | `403` | Device disabled |
 | `400` | Validation error (empty list, >500 samples, future timestamp, etc.) |
-| `429` | Single-sample upload too soon, or bulk uploads spaced too closely |
+| `429` | Another readings upload was accepted for this device inside the cooldown (`readings-rate-limit-seconds`) |
 | `503` | Ingest queue saturated or persistence circuit open |
 
 ---
