@@ -1,6 +1,6 @@
 # Installation guide — Smart AC PoC
 
-This document describes how to install and run the application **from source** or **with Docker**. The runtime database is **MariaDB or MySQL** (JDBC driver: MariaDB).
+This document describes how to install and run the application **from source** or **with Docker**. The runtime database is **MariaDB** (MariaDB JDBC driver; wire protocol is MySQL-compatible, hence the `MYSQL_*` environment variable names in Spring configuration).
 
 ---
 
@@ -10,7 +10,7 @@ This document describes how to install and run the application **from source** o
 |-------------|--------|
 | **Java 21** | JDK for building; JRE 21 is enough to run a pre-built JAR. |
 | **Maven 3.9+** | Required only if you build from source (`mvn package`). |
-| **MariaDB or MySQL** | Running and reachable before you start the app. |
+| **MariaDB** | Running and reachable before you start the app (10.x / 11.x recommended). |
 | **Docker** (optional) | For containerized build and run. |
 
 ---
@@ -29,7 +29,7 @@ The app connects using environment variables (or defaults in `src/main/resources
 | User | `root` |
 | Password | `root` |
 
-Create the database and a user with sufficient privileges (example for MariaDB/MySQL):
+Create the database and a user with sufficient privileges (example for MariaDB):
 
 ```sql
 CREATE DATABASE IF NOT EXISTS smartac CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -192,7 +192,7 @@ docker rm smartac-app
 
 | Symptom | What to check |
 |---------|----------------|
-| Cannot connect to database | Host/port/firewall; `MYSQL_*` values; MariaDB/MySQL listening on `0.0.0.0` or the right interface. |
+| Cannot connect to database | Host/port/firewall; `MYSQL_*` values; MariaDB listening on `0.0.0.0` or the right interface. |
 | Works locally but not in Docker | From the container, `host.docker.internal` (or `MYSQL_HOST`) must reach the DB; on Linux, set `MYSQL_HOST` to a reachable IP. |
 | Port 8080 already in use | Stop the other process or map another port: `docker run -p 8081:8080 ...`. |
 | `OutOfMemoryError: Java heap space` | Increase `JAVA_OPTS` `-Xmx` and container `-m` together. |

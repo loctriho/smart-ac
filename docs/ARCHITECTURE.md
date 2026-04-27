@@ -11,7 +11,7 @@ The app is a single Spring Boot service with two “front doors”:
 - **Device ingest API** (`/api/v1/devices/**`): stateless bearer-token auth for devices.
 - **Admin web + JSON API** (`/admin/` and `/api/admin/**`): session auth for humans.
 
-Both share a single relational database (MariaDB/MySQL in dev/prod; H2 in tests).
+Both share a single relational database (MariaDB in dev/prod; H2 in tests).
 
 ---
 
